@@ -23,7 +23,7 @@ class Ball(
     private var isFirstUpdate = true
 
     init {
-        // TODO: Call reset()
+        reset()
     }
 
     /**
@@ -37,7 +37,13 @@ class Ball(
             accY = yAcc
             return
         }
-
+        accX = xAcc
+        accY = yAcc
+        velocityX += accX * dT
+        velocityY += accY * dT
+        posX += velocityX * dT + 0.5f * accX * dT * dT
+        posY += velocityY * dT + 0.5f * accY * dT * dT
+        checkBoundaries()
     }
 
     /**
@@ -46,16 +52,53 @@ class Ball(
      * boundary should be set to 0.
      */
     fun checkBoundaries() {
-        // TODO: implement the checkBoundaries function
-        // (Check all 4 walls: left, right, top, bottom)
+        val left = 0f
+        val right = backgroundWidth - ballSize
+        val top = 0f
+        val bottom = backgroundHeight - ballSize
+
+        // LEFT wall
+        if (posX < left) {
+            posX = left
+            velocityX = 0f
+            accX = 0f
+        }
+
+        // RIGHT wall
+        if (posX > right) {
+            posX = right
+            velocityX = 0f
+            accX = 0f
+        }
+
+        // TOP wall
+        if (posY < top) {
+            posY = top
+            velocityY = 0f
+            accY = 0f
+        }
+
+        // BOTTOM wall
+        if (posY > bottom) {
+            posY = bottom
+            velocityY = 0f
+            accY = 0f
+        }
     }
+
 
     /**
      * Resets the ball to the center of the screen with zero
      * velocity and acceleration.
      */
     fun reset() {
-        // TODO: implement the reset function
         // (Reset posX, posY, velocityX, velocityY, accX, accY, isFirstUpdate)
+        posX = backgroundWidth / 2
+        posY = backgroundHeight / 2
+        velocityX = 0f
+        velocityY= 0f
+        accX = 0f
+        accY = 0f
+        isFirstUpdate = true
     }
 }
